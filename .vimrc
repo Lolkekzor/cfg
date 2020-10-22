@@ -1,3 +1,4 @@
+if !exists('g:vscode')
 set tabstop=4       " The width of a TAB is set to 4.
                     " Still it is a \t. It is just that
                     " Vim will interpret it to be having
@@ -8,6 +9,12 @@ set shiftwidth=4    " Indents will have a width of 4
 set softtabstop=4   " Sets the number of columns for a TAB
 
 set expandtab       " Expand TABs to spaces
+
+filetype plugin indent on
+
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " Persistent undo
 set undodir=~/.vim/undodir
@@ -48,6 +55,18 @@ call plug#begin('~/.vim/plugged')
 " Git status bar
 Plug 'vim-airline/vim-airline'
 
+" JS Prettier plugin
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+
+" Python Black
+Plug 'psf/black', { 'tag': '19.10b0' }
+autocmd BufWritePre *.py execute ':Black'
+
+" Log highlighting
+Plug 'mtdl9/vim-log-highlighting'
+
 " Python async autocompletion
 Plug 'davidhalter/jedi-vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -69,3 +88,4 @@ Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 
 call plug#end()
+endif
